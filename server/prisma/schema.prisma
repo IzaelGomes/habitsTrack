@@ -14,12 +14,10 @@ generator erd {
   provider = "prisma-erd-generator"
 }
 
-
-
 model Habit {
   id            String          @id @default(uuid())
   title         String
-  created_at    DateTime @db.DateTime
+  created_at    DateTime        @updatedAt
   dayHabits     dayHabit[]
   HabitWeekDays HabitWeekDays[]
 
@@ -31,17 +29,16 @@ model HabitWeekDays {
   habit_id String
   week_day Int
 
-  
-  habit   Habit  @relation(fields: [habit_id], references: [id])
-
+  habit Habit @relation(fields: [habit_id], references: [id])
 
   @@unique([habit_id, week_day])
   @@map("habit_week_days")
 }
 
-model Day{
+model Day {
   id        String     @id @default(uuid())
   date      DateTime
+  
   dayHabits dayHabit[]
 
   @@unique([date])
